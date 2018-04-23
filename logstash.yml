@@ -10,6 +10,7 @@ data:
   logstash.yml: |-
     http.host: "0.0.0.0"
     path.config: /usr/share/logstash/pipeline
+    log.level: info
   logstash.conf: |-
     # all input will come from filebeat, no local logs
     input {
@@ -42,9 +43,9 @@ data:
       }
     }
     output {
-        elasticsearch {
-            hosts => [ "elasticsearch.elasticsearch:9200" ]
-        }
+      elasticsearch {
+        hosts => [ "elasticsearch.elasticsearch:9200" ]
+      }
     }
 ---
 apiVersion: apps/v1beta1
@@ -70,13 +71,10 @@ spec:
           privileged: true
       containers:
       - name: logstash
-        image: docker.elastic.co/logstash/logstash-oss:6.2.4
+        image: docker.elastic.co/logstash/logstash-oss:6.2.2
         ports:
         - containerPort: 5044
           name: beats
-          protocol: TCP
-        - containerPort: 9300
-          name: transport
         volumeMounts:
           - name: config-volume
             mountPath: /usr/share/logstash/config
@@ -88,12 +86,6 @@ spec:
           requests:
             cpu: 500m
             memory: 300Mi
-        livenessProbe:
-          tcpSocket:
-            port: transport
-          initialDelaySeconds: 120
-          periodSeconds: 30
-          timeoutSeconds: 2
       volumes:
       - name: config-volume
         configMap:

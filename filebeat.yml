@@ -33,6 +33,11 @@ data:
       bulk_max_size: 10
       bulk_max_bytes: 10485760
 
+    # output.logstash:
+    #   hosts: ["logstash.elasticsearch:5044"]
+    #   bulk_max_size: 10
+    #   bulk_max_bytes: 10485760
+
     setup.kibana:
       host: "kibana.elasticsearch:80"
 
@@ -74,6 +79,9 @@ spec:
     spec:
       serviceAccountName: filebeat
       terminationGracePeriodSeconds: 30
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
       containers:
       - name: filebeat
         image: docker.elastic.co/beats/filebeat:6.2.4
