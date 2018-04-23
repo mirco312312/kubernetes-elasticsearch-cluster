@@ -30,6 +30,15 @@ data:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
+      bulk_max_size: 10
+      bulk_max_bytes: 10485760
+
+    setup.kibana:
+      host: "kibana.elasticsearch:80"
+
+    logging:
+      level: error
+      metrics.enabled: false
 ---
 apiVersion: v1
 kind: ConfigMap
