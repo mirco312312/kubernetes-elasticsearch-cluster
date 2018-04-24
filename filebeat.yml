@@ -61,6 +61,11 @@ data:
       processors:
         - add_kubernetes_metadata:
             in_cluster: true
+      # merge Java Stacktraces
+      # https://www.elastic.co/guide/en/beats/filebeat/master/_examples_of_multiline_configuration.html
+      multiline.pattern: '^[[:space:]]+|^Caused by:'
+      multiline.negate: false
+      multiline.match: after
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
