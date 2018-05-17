@@ -41,6 +41,9 @@ data:
     setup.kibana:
       host: "kibana.elasticsearch:80"
 
+    setup.dashboards:
+      enabled: true
+
     logging:
       level: error
       metrics.enabled: false
